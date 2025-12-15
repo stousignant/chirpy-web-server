@@ -10,6 +10,6 @@ export function middlewareLogResponse(req, res, next) {
 }
 ;
 export function middlewareMetricsInc(_, __, next) {
-    config.fileserverHits++;
+    config.fileServerHits++;
     next();
 }
