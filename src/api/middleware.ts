@@ -13,11 +13,7 @@ export function middlewareLogResponse(req: Request, res: Response, next: NextFun
     next();
 };
 
-export function middlewareMetricsInc(req: Request, res: Response, next: NextFunction) {
-    // Increment request count made to serve the homepage
-    if (req.url === "/app/") {
-        config.fileserverHits++;
-    }
-
+export function middlewareMetricsInc(_: Request, __: Response, next: NextFunction) {
+    config.fileserverHits++;
     next();
 }
