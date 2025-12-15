@@ -1,0 +1,29 @@
+### Reset endpoint
+post http://localhost:8080/admin/reset
+
+### Validate chirp endpoint - Valid
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "This is an opinion I need to share with the world"
+}
+
+### Validate chirp endpoint - Too long
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "This is an opinion I need to share with the world This is an opinion I need to share with the world This is an opinion I need to share with the world This is an opinion I need to share with the world This is an opinion I need to share with the world This is an opinion I need to share with the world"
+}
+
+### Validate chirp endpoint - Invalid body field
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body_lolwut": ""
+}
