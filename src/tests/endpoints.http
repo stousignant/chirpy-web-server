@@ -27,3 +27,40 @@ Content-Type: application/json
 {
   "body_lolwut": ""
 }
+
+### Validate chirp endpoint - Profanity, testing with a bad word
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "This is a kerfuffle opinion I need to share with the world"
+}
+
+### Validate chirp endpoint - Profanity, testing with no bad word
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "I had something interesting for breakfast"
+}
+
+### Validate chirp endpoint - Profanity, testing with a bad word + extra field
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "I hear Mastodon is better than Chirpy. sharbert I need to migrate",
+  "extra": "this should be ignored"
+}
+
+### Validate chirp endpoint - Profanity, testing with two bad words
+
+post http://localhost:8080/api/validate_chirp
+Content-Type: application/json
+
+{
+  "body": "I really need a kerfuffle to go to bed sooner, Fornax !"
+}

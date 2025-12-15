@@ -1,13 +1,20 @@
-export function respondWithJson(res, errorMessage) {
-    const resBody = {
+export function respondWithError(res, errorMessage) {
+    const resData = {
+        valid: false,
+        statusCode: 400,
+        error: errorMessage,
+    };
+    respondWithJson(res, resData);
+}
+export function respond(res, cleanedBody) {
+    const resData = {
         valid: true,
         statusCode: 200,
+        cleanedBody: cleanedBody,
     };
-    if (errorMessage) {
-        resBody.valid = false;
-        resBody.statusCode = 400;
-        resBody.error = errorMessage;
-    }
+    respondWithJson(res, resData);
+}
+function respondWithJson(res, resData) {
     res.header('Content-Type', 'application/json');
-    res.status(resBody.statusCode).send(JSON.stringify(resBody));
+    res.status(resData.statusCode).send(JSON.stringify(resData));
 }
