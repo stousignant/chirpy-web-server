@@ -1,3 +1,4 @@
+import { config } from "../config.js";
 export function middlewareLogResponse(req, res, next) {
     res.on("finish", () => {
         const statusCode = res.statusCode;
@@ -8,3 +9,10 @@ export function middlewareLogResponse(req, res, next) {
     next();
 }
 ;
+export function middlewareMetricsInc(req, res, next) {
+    // Increment request count made to serve the homepage
+    if (req.url === "/app/") {
+        config.fileserverHits++;
+    }
+    next();
+}
