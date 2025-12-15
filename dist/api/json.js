@@ -1,7 +1,7 @@
-export function respondWithError(res, errorMessage) {
+export function respondWithError(res, statusCode, errorMessage) {
     const resData = {
         valid: false,
-        statusCode: 400,
+        statusCode: statusCode,
         error: errorMessage,
     };
     respondWithJson(res, resData);

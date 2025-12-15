@@ -7,10 +7,10 @@ type responseData = {
     error?: string;
 }
 
-export function respondWithError(res: Response, errorMessage: string) {
+export function respondWithError(res: Response, statusCode: number, errorMessage: string) {
     const resData: responseData = {
         valid: false,
-        statusCode: 400,
+        statusCode: statusCode,
         error: errorMessage,
     }
 

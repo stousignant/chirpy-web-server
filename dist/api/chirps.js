@@ -1,4 +1,5 @@
-import { respond, respondWithError } from "./json.js";
+import { respond } from "./json.js";
+import { BadRequestError } from "./errors.js";
 const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
 const HIDDEN_WORD = "****";
@@ -6,12 +7,10 @@ export async function handlerValidateChirp(req, res) {
     // req.body is automatically parsed from express.json()
     const params = req.body;
     if (!params.body) {
-        respondWithError(res, "Invalid JSON");
-        return;
+        throw new BadRequestError(`Invalid JSON`);
     }
     if (params.body.length > MAX_CHIRP_LENGTH) {
-        respondWithError(res, "Chirp is too long");
-        return;
+        throw new BadRequestError(`Chirp is too long. Max length is ${MAX_CHIRP_LENGTH}`);
     }
     const cleanedBody = handleProfanity(params.body);
     respond(res, cleanedBody);
