@@ -6,6 +6,8 @@ import { handlerReset } from "./api/reset.js";
 import { middlewareLogResponse, middlewareMetricsInc } from "./api/middleware.js";
 const app = express();
 const PORT = 8080;
+// Built-in JSON body parsing middleware
+app.use(express.json());
 app.use(middlewareLogResponse);
 app.use("/app", middlewareMetricsInc, express.static("./src/app"));
 app.get("/api/healthz", handlerReadiness);
