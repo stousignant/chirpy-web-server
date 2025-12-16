@@ -8,6 +8,13 @@
       "when": 1765826130672,
       "tag": "0000_known_shocker",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765896377643,
+      "tag": "0001_bumpy_satana",
+      "breakpoints": true
     }
   ]
 }

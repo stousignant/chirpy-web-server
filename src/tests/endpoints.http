@@ -71,6 +71,15 @@ post http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "email": "bob@houle2.com"
+  "email": "bob@houle5.com"
 }
 
+### Create new chirp
+
+post http://localhost:8080/api/chirps
+Content-Type: application/json
+
+{
+  "body": "If you're committed enough, you can make any story work.",
+  "userId": "bb7bc677-d087-4a82-abf9-5247bd6b690c"
+}

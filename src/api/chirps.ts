@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import { respondWithJson } from "./json.js";
-import { BadRequestError } from "./errors.js"
+import { BadRequestError } from "./errors.js";
+import { createChirp } from "../db/queries/chirps.js";
 
 const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
 const HIDDEN_WORD = "****";
 
-export async function handlerValidateChirp(req: Request, res: Response) {
+export async function handlerCreateChirp(req: Request, res: Response) {
     type parameters = {
-        body: string;
+        body: string,
+        userId: string,
     };
 
     // req.body is automatically parsed from express.json()
@@ -22,10 +24,15 @@ export async function handlerValidateChirp(req: Request, res: Response) {
         throw new BadRequestError(`Chirp is too long. Max length is ${MAX_CHIRP_LENGTH}`);
     }
 
-    const cleanedBody = handleProfanity(params.body);
-    respondWithJson(res, 200, {
-        cleanedBody: cleanedBody,
-    });
+    params.body = handleProfanity(params.body);
+
+    const chirp = await createChirp(params);
+
+    if (!chirp) {
+        throw new Error("Could not create chirp");
+    }
+
+    respondWithJson(res, 201, chirp);
 }
 
 function handleProfanity(message: string): string {

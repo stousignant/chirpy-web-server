@@ -1,9 +1,10 @@
 import { respondWithJson } from "./json.js";
 import { BadRequestError } from "./errors.js";
+import { createChirp } from "../db/queries/chirps.js";
 const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
 const HIDDEN_WORD = "****";
-export async function handlerValidateChirp(req, res) {
+export async function handlerCreateChirp(req, res) {
     // req.body is automatically parsed from express.json()
     const params = req.body;
     if (!params.body) {
@@ -12,10 +13,12 @@ export async function handlerValidateChirp(req, res) {
     if (params.body.length > MAX_CHIRP_LENGTH) {
         throw new BadRequestError(`Chirp is too long. Max length is ${MAX_CHIRP_LENGTH}`);
     }
-    const cleanedBody = handleProfanity(params.body);
-    respondWithJson(res, 200, {
-        cleanedBody: cleanedBody,
-    });
+    params.body = handleProfanity(params.body);
+    const chirp = await createChirp(params);
+    if (!chirp) {
+        throw new Error("Could not create chirp");
+    }
+    respondWithJson(res, 201, chirp);
 }
 function handleProfanity(message) {
     let words = message.split(" ");
