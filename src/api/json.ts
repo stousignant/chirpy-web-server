@@ -1,34 +1,11 @@
 import { Response } from "express";
 
-type responseData = {
-    valid: boolean;
-    statusCode: number;
-    cleanedBody?: string;
-    error?: string;
+export function respondWithError(res: Response, code: number, message: string) {
+    respondWithJson(res, code, message);
 }
 
-export function respondWithError(res: Response, statusCode: number, errorMessage: string) {
-    const resData: responseData = {
-        valid: false,
-        statusCode: statusCode,
-        error: errorMessage,
-    }
-
-    respondWithJson(res, resData);
-}
-
-export function respond(res: Response, cleanedBody: string) {
-    const resData: responseData = {
-        valid: true,
-        statusCode: 200,
-        cleanedBody: cleanedBody,
-    }
-
-    respondWithJson(res, resData);
-}
-
-function respondWithJson(res: Response, resData: responseData) {
+export function respondWithJson(res: Response, code: number, payload: any) {
     res.header('Content-Type', 'application/json');
-    res.status(resData.statusCode).send(JSON.stringify(resData));
+    const body = JSON.stringify(payload);
+    res.status(code).send(body);
 }
-

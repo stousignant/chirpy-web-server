@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { respond } from "./json.js";
+import { respondWithJson } from "./json.js";
 import { BadRequestError } from "./errors.js"
 
 const MAX_CHIRP_LENGTH = 140;
@@ -23,7 +23,9 @@ export async function handlerValidateChirp(req: Request, res: Response) {
     }
 
     const cleanedBody = handleProfanity(params.body);
-    respond(res, cleanedBody);
+    respondWithJson(res, 200, {
+        cleanedBody: cleanedBody,
+    });
 }
 
 function handleProfanity(message: string): string {

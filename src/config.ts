@@ -1,13 +1,19 @@
 import type { MigrationConfig } from "drizzle-orm/migrator";
 
+export enum Platform {
+    DEV = "dev",
+    PROD = "prod",
+}
+
 type Config = {
     api: APIConfig,
     db: DBConfig,
 };
 
 type APIConfig = {
-    fileServerHits: number,
     port: number,
+    platform: string,
+    fileServerHits: number,
 }
 
 type DBConfig = {
@@ -23,8 +29,9 @@ const migrationConfig: MigrationConfig = {
 
 export const config: Config = {
     api: {
-        fileServerHits: 0,
         port: Number(envOrThrow("PORT")),
+        platform: envOrThrow("PLATFORM"),
+        fileServerHits: 0,
     },
     db: {
         url: envOrThrow("DB_URL"),
