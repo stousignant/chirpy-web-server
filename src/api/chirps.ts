@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
-import { respondWithJson } from "./json.js";
-import { BadRequestError } from "./errors.js";
-import { createChirp, getAllChirps } from "../db/queries/chirps.js";
+import { respondWithJson, respondWithError } from "./json.js";
+import { BadRequestError, NotFoundError } from "./errors.js";
+import { createChirp, getAllChirps, getChirp } from "../db/queries/chirps.js";
+import { stringify } from "node:querystring";
+import { param } from "drizzle-orm";
 
 const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
@@ -16,17 +18,8 @@ export async function handlerCreateChirp(req: Request, res: Response) {
     // req.body is automatically parsed from express.json()
     const params: parameters = req.body;
 
-    if (!params.body) {
-        throw new BadRequestError(`Invalid JSON`);
-    }
-
-    if (params.body.length > MAX_CHIRP_LENGTH) {
-        throw new BadRequestError(`Chirp is too long. Max length is ${MAX_CHIRP_LENGTH}`);
-    }
-
-    params.body = handleProfanity(params.body);
-
-    const chirp = await createChirp(params);
+    const cleanedBody = validateChirp(params.body);
+    const chirp = await createChirp({ body: cleanedBody, userId: params.userId });
 
     if (!chirp) {
         throw new Error("Could not create chirp");
@@ -38,6 +31,28 @@ export async function handlerCreateChirp(req: Request, res: Response) {
 export async function handlerGetAllChirps(req: Request, res: Response) {
     const result = await getAllChirps();
     respondWithJson(res, 200, result);
+}
+
+export async function handlerGetChirp(req: Request, res: Response) {
+    const { chirpId } = req.params;
+    const result = await getChirp(chirpId);
+    if (!result) {
+        throw new NotFoundError(`Chirp with ID: ${chirpId} not found`);
+    }
+
+    respondWithJson(res, 200, result);
+}
+
+function validateChirp(body: string) {
+    if (!body) {
+        throw new BadRequestError(`Invalid JSON`);
+    }
+
+    if (body.length > MAX_CHIRP_LENGTH) {
+        throw new BadRequestError(`Chirp is too long. Max length is ${MAX_CHIRP_LENGTH}`);
+    }
+
+    return handleProfanity(body);
 }
 
 function handleProfanity(message: string): string {

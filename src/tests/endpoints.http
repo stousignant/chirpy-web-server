@@ -88,3 +88,13 @@ Content-Type: application/json
 
 get http://localhost:8080/api/chirps
 Content-Type: application/json
+
+### Get a specific chirp (found)
+
+get http://localhost:8080/api/chirps/69e3e49b-90c7-4b8e-a102-f940e346fa88
+Content-Type: application/json
+
+### Get a specific chirp (not found)
+
+get http://localhost:8080/api/chirps/baeae870-6927-42f6-b13a-6e6b03fd8407
+Content-Type: application/json
