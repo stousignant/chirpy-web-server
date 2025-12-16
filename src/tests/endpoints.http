@@ -71,7 +71,8 @@ post http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "email": "bob@houle6.com"
+  "email": "bob@houle9.com",
+  "password": "123456"
 }
 
 ### Create new chirp
@@ -97,4 +98,19 @@ Content-Type: application/json
 ### Get a specific chirp (not found)
 
 get http://localhost:8080/api/chirps/baeae870-6927-42f6-b13a-6e6b03fd8407
+Content-Type: application/json
+
+### Login
+
+post http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "password": "1234556",
+  "email": "bob@houle9.com"
+}
+
+### Healthz
+
+get http://localhost:8080/api/healthz
 Content-Type: application/json

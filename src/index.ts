@@ -9,6 +9,7 @@ import { handlerCreateChirp, handlerGetAllChirps, handlerGetChirp } from "./api/
 import { handlerCreateUser } from "./api/users.js";
 import { handlerMetrics } from "./api/metrics.js";
 import { handlerReset } from "./api/reset.js";
+import { handlerLogin } from "./api/auth.js";
 import { middlewareLogResponse, middlewareMetricsInc, middlewareError } from "./api/middleware.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -23,6 +24,9 @@ app.use("/app", middlewareMetricsInc, express.static("./src/app"));
 
 app.get("/api/healthz", (req, res, next) => {
     Promise.resolve(handlerReadiness(req, res)).catch(next);
+});
+app.post("/api/login", (req, res, next) => {
+    Promise.resolve(handlerLogin(req, res)).catch(next);
 });
 app.post("/api/users", (req, res, next) => {
     Promise.resolve(handlerCreateUser(req, res)).catch(next);
