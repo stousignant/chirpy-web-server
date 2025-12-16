@@ -1,6 +1,6 @@
 import { respondWithJson } from "./json.js";
 import { BadRequestError } from "./errors.js";
-import { createChirp } from "../db/queries/chirps.js";
+import { createChirp, getAllChirps } from "../db/queries/chirps.js";
 const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
 const HIDDEN_WORD = "****";
@@ -19,6 +19,10 @@ export async function handlerCreateChirp(req, res) {
         throw new Error("Could not create chirp");
     }
     respondWithJson(res, 201, chirp);
+}
+export async function handlerGetAllChirps(req, res) {
+    const result = await getAllChirps();
+    respondWithJson(res, 200, result);
 }
 function handleProfanity(message) {
     let words = message.split(" ");
