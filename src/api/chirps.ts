@@ -1,7 +1,17 @@
 import { Request, Response } from "express";
 import { respondWithJson } from "./json.js";
-import { BadRequestError, NotFoundError, UnauthorizedError } from "./errors.js";
-import { createChirp, getAllChirps, getChirp } from "../db/queries/chirps.js";
+import {
+    BadRequestError,
+    ForbiddenError,
+    NotFoundError,
+    UnauthorizedError
+} from "./errors.js";
+import {
+    createChirp,
+    getAllChirps,
+    getChirp,
+    deleteChirp
+} from "../db/queries/chirps.js";
 import { getBearerToken, validateJwt } from "../auth.js";
 import { config } from "../config.js";
 
@@ -45,6 +55,29 @@ export async function handlerGetChirp(req: Request, res: Response) {
     }
 
     respondWithJson(res, 200, result);
+}
+
+export async function handlerDeleteChirp(req: Request, res: Response) {
+    const { chirpId } = req.params;
+
+    const bearerToken = getBearerToken(req);
+    const userId = validateJwt(bearerToken, config.jwt.secret);
+
+    const chirp = await getChirp(chirpId);
+    if (!chirp) {
+        throw new NotFoundError(`Chirp with ID: ${chirpId} not found`);
+    }
+
+    if (chirp.userId !== userId) {
+        throw new ForbiddenError(`You can't delete this chirp`);
+    }
+
+    const deleted = await deleteChirp(chirpId);
+    if (!deleted) {
+        throw new Error(`Failed to delete chirp with ID: ${chirpId}`);
+    }
+
+    res.status(204).send();
 }
 
 function validateChirp(body: string) {
