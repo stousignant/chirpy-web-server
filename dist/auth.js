@@ -40,7 +40,7 @@ export function validateJwt(tokenString, secret) {
 export function getBearerToken(req) {
     let authHeader = req.headers.authorization;
     if (!authHeader) {
-        throw new BadRequestError("No authorization header found");
+        throw new UnauthorizedError("No authorization header found");
     }
     return extractBearerToken(authHeader);
 }

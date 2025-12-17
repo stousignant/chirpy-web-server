@@ -14,7 +14,6 @@ export async function handlerCreateChirp(req: Request, res: Response) {
         body: string,
     };
 
-    // req.body is automatically parsed from express.json()
     const params: parameters = req.body;
 
     const bearerToken = getBearerToken(req);

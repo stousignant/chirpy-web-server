@@ -5,7 +5,6 @@ import { UnauthorizedError } from "./errors.js";
 import { respondWithJson } from "./json.js";
 import { config } from "../config.js";
 export async function handlerLogin(req, res) {
-    // req.body is automatically parsed from express.json()
     const params = req.body;
     const user = await getUserByEmail(params.email);
     if (!user) {

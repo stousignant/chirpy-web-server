@@ -24,7 +24,6 @@ export async function handlerLogin(req: Request, res: Response) {
         email: string,
     };
 
-    // req.body is automatically parsed from express.json()
     const params: parameters = req.body;
 
     const user = await getUserByEmail(params.email);

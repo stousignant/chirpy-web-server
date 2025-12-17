@@ -7,7 +7,6 @@ const MAX_CHIRP_LENGTH = 140;
 const BAD_WORDS = ["kerfuffle", "sharbert", "fornax"];
 const HIDDEN_WORD = "****";
 export async function handlerCreateChirp(req, res) {
-    // req.body is automatically parsed from express.json()
     const params = req.body;
     const bearerToken = getBearerToken(req);
     const userId = validateJwt(bearerToken, config.jwt.secret);

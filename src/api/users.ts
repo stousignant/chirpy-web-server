@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { respondWithJson } from "./json.js";
-import { createUser } from "../db/queries/users.js";
-import { BadRequestError } from "./errors.js";
-import { hashPassword } from "../auth.js";
-import { NewUser } from "src/db/schema.js";
+import { createUser, updateUser } from "../db/queries/users.js";
+import { BadRequestError, UnauthorizedError } from "./errors.js";
+import { getBearerToken, hashPassword, validateJwt } from "../auth.js";
+import { NewUser } from "../db/schema.js";
+import { config } from "../config.js";
 
 export type UserResponse = Omit<NewUser, "hashedPassword">;
 
@@ -13,7 +14,6 @@ export async function handlerCreateUser(req: Request, res: Response) {
         email: string,
     };
 
-    // req.body is automatically parsed from express.json()
     const params: parameters = req.body;
 
     if (!params.password || !params.email) {
@@ -35,5 +35,31 @@ export async function handlerCreateUser(req: Request, res: Response) {
         email: user.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+    } satisfies UserResponse);
+}
+
+export async function handlerUpdateUser(req: Request, res: Response) {
+    type parameters = {
+        password: string,
+        email: string,
+    };
+
+    const bearerToken = getBearerToken(req);
+    const userId = validateJwt(bearerToken, config.jwt.secret);
+
+    const params: parameters = req.body;
+
+    if (!params.password || !params.email) {
+        throw new BadRequestError("Missing required fields");
+    }
+
+    const hashedPassword = await hashPassword(params.password);
+    const updatedUser = await updateUser(userId, params.email, hashedPassword);
+
+    respondWithJson(res, 200, {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
     } satisfies UserResponse);
 }
