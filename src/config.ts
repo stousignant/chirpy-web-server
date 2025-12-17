@@ -26,7 +26,8 @@ type DBConfig = {
 type JWTConfig = {
     secret: string,
     issuer: string,
-    defaultDuration: number,
+    accessTokenDuration: number,
+    refreshTokenDuration: number,
 }
 
 process.loadEnvFile();
@@ -48,7 +49,8 @@ export const config: Config = {
     jwt: {
         secret: envOrThrow("SECRET"),
         issuer: "chirpy",
-        defaultDuration: 60 * 60,
+        accessTokenDuration: 60 * 60, // 1 hour in seconds
+        refreshTokenDuration: 60 * 60 * 24 * 60 // 60 days in seconds
     }
 };
 

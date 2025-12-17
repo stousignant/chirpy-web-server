@@ -1,4 +1,5 @@
 import * as argon2 from "argon2";
+import * as crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { BadRequestError, UnauthorizedError } from "./api/errors.js";
 import { config } from "./config.js";
@@ -49,4 +50,7 @@ export function extractBearerToken(header) {
         throw new BadRequestError("Malformed authorization header");
     }
     return splitAuth[1];
+}
+export function makeRefreshToken() {
+    return crypto.randomBytes(256).toString("hex");
 }

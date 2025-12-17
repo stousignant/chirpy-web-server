@@ -9,7 +9,7 @@ import { handlerCreateChirp, handlerGetAllChirps, handlerGetChirp } from "./api/
 import { handlerCreateUser } from "./api/users.js";
 import { handlerMetrics } from "./api/metrics.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerLogin } from "./api/auth.js";
+import { handlerLogin, handlerRefreshToken, handlerRevokeToken } from "./api/auth.js";
 import { middlewareLogResponse, middlewareMetricsInc, middlewareError } from "./api/middleware.js";
 
 const migrationClient = postgres(config.db.url, { max: 1 });
@@ -39,6 +39,12 @@ app.get("/api/chirps/:chirpId", (req, res, next) => {
 });
 app.post("/api/chirps", (req, res, next) => {
     Promise.resolve(handlerCreateChirp(req, res)).catch(next);
+});
+app.post("/api/refresh", (req, res, next) => {
+    Promise.resolve(handlerRefreshToken(req, res)).catch(next);
+});
+app.post("/api/revoke", (req, res, next) => {
+    Promise.resolve(handlerRevokeToken(req, res)).catch(next);
 });
 
 app.get("/admin/metrics", (req, res, next) => {

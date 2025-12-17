@@ -20,7 +20,8 @@ export const config = {
     jwt: {
         secret: envOrThrow("SECRET"),
         issuer: "chirpy",
-        defaultDuration: 60 * 60,
+        accessTokenDuration: 60 * 60, // 1 hour in seconds
+        refreshTokenDuration: 60 * 60 * 24 * 60 // 60 days in seconds
     }
 };
 function envOrThrow(key) {

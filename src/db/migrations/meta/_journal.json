@@ -29,6 +29,20 @@
       "when": 1765905434342,
       "tag": "0003_black_kang",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1765984555316,
+      "tag": "0004_sour_squadron_sinister",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1765984737370,
+      "tag": "0005_wooden_scream",
+      "breakpoints": true
     }
   ]
 }
