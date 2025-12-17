@@ -21,7 +21,12 @@ export async function handlerCreateChirp(req, res) {
     respondWithJson(res, 201, chirp);
 }
 export async function handlerGetAllChirps(req, res) {
-    const result = await getAllChirps();
+    let authorId = "";
+    let authorIdQuery = req.query.authorId;
+    if (typeof authorIdQuery === "string") {
+        authorId = authorIdQuery;
+    }
+    const result = await getAllChirps(authorId);
     respondWithJson(res, 200, result);
 }
 export async function handlerGetChirp(req, res) {
