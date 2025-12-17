@@ -1,8 +1,8 @@
 import * as argon2 from "argon2";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { UnauthorizedError } from "./api/errors.js";
-
-const TOKEN_ISSUER = "chirpy";
+import { BadRequestError, UnauthorizedError } from "./api/errors.js";
+import { config } from "./config.js"
+import type { Request } from "express";
 
 type payload = Pick<JwtPayload, "iss" | "sub" | "iat" | "exp">;
 
@@ -17,7 +17,7 @@ export async function checkPasswordHash(password: string, hash: string): Promise
 export function makeJwt(userId: string, expiresIn: number, secret: string): string {
     const issuedAt = Math.floor(Date.now() / 1000);
     const payload = {
-        iss: TOKEN_ISSUER,
+        iss: config.jwt.issuer,
         sub: userId,
         iat: issuedAt,
         exp: issuedAt + expiresIn,
@@ -34,7 +34,7 @@ export function validateJwt(tokenString: string, secret: string): string {
         throw new UnauthorizedError("Invalid JWT token");
     }
 
-    if (decoded.iss !== TOKEN_ISSUER) {
+    if (decoded.iss !== config.jwt.issuer) {
         throw new UnauthorizedError("Invalid JWT issuer");
     }
 
@@ -44,4 +44,21 @@ export function validateJwt(tokenString: string, secret: string): string {
     }
 
     return userId;
+}
+
+export function getBearerToken(req: Request): string {
+    let authHeader = req.headers.authorization;
+    if (!authHeader) {
+        throw new BadRequestError("No authorization header found");
+    }
+
+    return extractBearerToken(authHeader);
+}
+
+export function extractBearerToken(header: string) {
+    const splitAuth = header.split(" ");
+    if (splitAuth.length < 2 || splitAuth[0] !== "Bearer") {
+        throw new BadRequestError("Malformed authorization header");
+    }
+    return splitAuth[1];
 }

@@ -17,6 +17,11 @@ export const config = {
         url: envOrThrow("DB_URL"),
         migrationConfig: migrationConfig,
     },
+    jwt: {
+        secret: envOrThrow("SECRET"),
+        issuer: "chirpy",
+        defaultDuration: 60 * 60,
+    }
 };
 function envOrThrow(key) {
     const value = process.env[key];

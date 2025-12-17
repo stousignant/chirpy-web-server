@@ -71,7 +71,7 @@ post http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "email": "bob@houle9.com",
+  "email": "bob@houle10.com",
   "password": "123456"
 }
 
@@ -79,10 +79,10 @@ Content-Type: application/json
 
 post http://localhost:8080/api/chirps
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiIzZDI2MDNjYy1lZDc5LTRhNDktYjNhMy1jNWMxOTAwOTg5NDEiLCJpYXQiOjE3NjU5MzM5MzYsImV4cCI6MzUzMTg3MTQ3Mn0.eEwjDZc1E3THsiBiHsxK-AhYwHalTqY0gMTO51EPQQA
 
 {
-  "body": "If you're committed enough, you can make any story work even more.",
-  "userId": "f7c1ac32-299e-4087-83a4-cad6551d0ee7"
+  "body": "If you're committed enough, you can make any story work even more more."
 }
 
 ### Get all chirps
@@ -106,8 +106,8 @@ post http://localhost:8080/api/login
 Content-Type: application/json
 
 {
-  "password": "1234556",
-  "email": "bob@houle9.com"
+  "password": "123456",
+  "email": "bob@houle10.com"
 }
 
 ### Healthz
