@@ -2,7 +2,6 @@
 post http://localhost:8080/admin/reset
 
 ### Validate chirp endpoint - Valid
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -11,7 +10,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Too long
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -20,7 +18,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Invalid body field
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -29,7 +26,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Profanity, testing with a bad word
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -38,7 +34,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Profanity, testing with no bad word
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -47,7 +42,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Profanity, testing with a bad word + extra field
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -57,7 +51,6 @@ Content-Type: application/json
 }
 
 ### Validate chirp endpoint - Profanity, testing with two bad words
-
 post http://localhost:8080/api/validate_chirp
 Content-Type: application/json
 
@@ -66,7 +59,6 @@ Content-Type: application/json
 }
 
 ### Create new user
-
 post http://localhost:8080/api/users
 Content-Type: application/json
 
@@ -76,7 +68,6 @@ Content-Type: application/json
 }
 
 ### Create new chirp
-
 post http://localhost:8080/api/chirps
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiLCJzdWIiOiIzZDI2MDNjYy1lZDc5LTRhNDktYjNhMy1jNWMxOTAwOTg5NDEiLCJpYXQiOjE3NjU5MzM5MzYsImV4cCI6MzUzMTg3MTQ3Mn0.eEwjDZc1E3THsiBiHsxK-AhYwHalTqY0gMTO51EPQQA
@@ -86,22 +77,24 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJjaGlycHkiL
 }
 
 ### Get all chirps
-
 get http://localhost:8080/api/chirps
 Content-Type: application/json
 
-### Get a specific chirp (found)
+### Get all chirps in ascending order
+get http://localhost:8080/api/chirps?sort=asc
 
+### Get all chirps in descending order
+get http://localhost:8080/api/chirps?sort=desc
+
+### Get a specific chirp (found)
 get http://localhost:8080/api/chirps/69e3e49b-90c7-4b8e-a102-f940e346fa88
 Content-Type: application/json
 
 ### Get a specific chirp (not found)
-
 get http://localhost:8080/api/chirps/baeae870-6927-42f6-b13a-6e6b03fd8407
 Content-Type: application/json
 
 ### Login
-
 post http://localhost:8080/api/login
 Content-Type: application/json
 
@@ -111,6 +104,5 @@ Content-Type: application/json
 }
 
 ### Healthz
-
 get http://localhost:8080/api/healthz
 Content-Type: application/json

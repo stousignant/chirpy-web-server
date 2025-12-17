@@ -49,7 +49,13 @@ export async function handlerGetAllChirps(req: Request, res: Response) {
         authorId = authorIdQuery;
     }
 
-    const result = await getAllChirps(authorId);
+    let sortDirection = "asc";
+    let sortDirectionQuery = req.query.sort;
+    if (sortDirectionQuery === "desc") {
+        sortDirection = "desc";
+    }
+
+    const result = await getAllChirps(authorId, sortDirection);
     respondWithJson(res, 200, result);
 }
 

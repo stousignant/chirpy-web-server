@@ -26,7 +26,12 @@ export async function handlerGetAllChirps(req, res) {
     if (typeof authorIdQuery === "string") {
         authorId = authorIdQuery;
     }
-    const result = await getAllChirps(authorId);
+    let sortDirection = "asc";
+    let sortDirectionQuery = req.query.sort;
+    if (sortDirectionQuery === "desc") {
+        sortDirection = "desc";
+    }
+    const result = await getAllChirps(authorId, sortDirection);
     respondWithJson(res, 200, result);
 }
 export async function handlerGetChirp(req, res) {
