@@ -21,6 +21,7 @@ export async function handlerCreateUser(req, res) {
         email: user.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        isChirpyRed: user.isChirpyRed,
     });
 }
 export async function handlerUpdateUser(req, res) {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { respondWithJson } from "./json.js";
 import { createUser, updateUser } from "../db/queries/users.js";
-import { BadRequestError, UnauthorizedError } from "./errors.js";
+import { BadRequestError } from "./errors.js";
 import { getBearerToken, hashPassword, validateJwt } from "../auth.js";
 import { NewUser } from "../db/schema.js";
 import { config } from "../config.js";
@@ -35,6 +35,7 @@ export async function handlerCreateUser(req: Request, res: Response) {
         email: user.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        isChirpyRed: user.isChirpyRed,
     } satisfies UserResponse);
 }
 

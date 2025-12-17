@@ -43,6 +43,13 @@
       "when": 1765984737370,
       "tag": "0005_wooden_scream",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1765988873984,
+      "tag": "0006_romantic_leper_queen",
+      "breakpoints": true
     }
   ]
 }
